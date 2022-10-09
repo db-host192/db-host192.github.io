@@ -10,11 +10,17 @@
     <script src="https://kit.fontawesome.com/d17938427b.js"></script>
 </head>
 <body class="bg-dark">
-<nav class="navbar fixed-top bg-dark">
+<div id="loading">
+    loading
+</div>
+<nav id="navbar-panel" class="navbar fixed-top bg-dark" style="display: none;">
     <div class="container-fluid">
-           <button class="btn btn-outline-info w-100" onclick="startSearch()">
-                Start Search
-           </button>
+        <button id="start-search-btn" class="btn btn-outline-info w-100" onclick="startSearch()">
+                <span class="icon-padding-5" id="button-search-text">
+                    Search
+                </span>
+            <i class="fas fa-search"></i>
+        </button>
     </div>
 </nav>
 <div class="container mt-5 bg-dark">
@@ -28,7 +34,23 @@
 </div>
 </body>
 <script defer>
+    window.addEventListener('load', function () {
+        let loader = document.getElementById('loading')
+        loader.style.display = 'none'
+        let navbarPanel = document.getElementById('navbar-panel')
+        navbarPanel.style.display = 'block'
+    })
     function startSearch() {
+        let resultsContainer = document.getElementById('results')
+        resultsContainer.innerText = ''
+
+        let searchButton = document.getElementById('start-search-btn')
+        let buttonText = document.getElementById('button-search-text')
+
+        buttonText.innerText = 'Searching'
+        searchButton.style.pointerEvents = 'none';
+        searchButton.style.opacity = '0.5';
+
         const xhr = new XMLHttpRequest();
         xhr.open('GET', 'input.db', true);
         xhr.responseType = 'arraybuffer';
@@ -38,21 +60,21 @@
             config = {
                 locateFile: filename => `/dist/${filename}`
             }
-            let resultsContainer = document.getElementById('results')
             initSqlJs(config).then(function (SQL) {
                 const db = new SQL.Database(uInt8Array);
-                const contents = db.exec("SELECT * FROM parsed_users limit 100");
+                const contents = db.exec("SELECT * FROM parsed_users limit 1000");
                 if (contents[0]) {
                     let rows = contents[0].values
                     for (let i = 0; i < rows.length; i++) {
                         let resultItem = document.createElement("p")
                         resultsContainer.append(rows[i][0], resultItem)
-                        // document.write(rows[i][0])
-                        // document.write("</br>")
                     }
                 } else {
                     document.write("not found")
                 }
+                buttonText.innerText = 'Search'
+                searchButton.style.pointerEvents = 'all';
+                searchButton.style.opacity = '1';
             })
         };
         xhr.send();
