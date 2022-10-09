@@ -27,9 +27,9 @@
 }
 
 #single-search-label {
-    margin-top: 1px;
+    margin-top: 2px!important;
 }
 
-#single-search-label {
-    margin-top: 1px;
+#single-search {
+    font-size: 18px;
 }
