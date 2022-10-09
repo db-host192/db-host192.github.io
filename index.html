@@ -27,8 +27,9 @@
             <div class="col-4 p-2">
                 <div class="form-outline">
                     <input class="form-control sea-color" id="single-search" type="text"/>
-                    <label class="form-label" for="single-search" id="single-search-label">Single
-                        search</label>
+                    <label class="form-label" for="single-search" id="single-search-label">
+                        Single search
+                    </label>
                 </div>
             </div>
     </div>
@@ -41,14 +42,20 @@
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-            <div id="results" class="mt-5">
+            <div id="results" class="mt-5" onclick="copyResults()">
             </div>
         </div>
     </div>
 </div>
 </body>
 <script src='dist/mdb.min.js'></script>
-
+<script>
+    function copyResults() {
+        let copyText = document.getElementById("results");
+        navigator.clipboard.writeText(copyText.innerText.replace(/(^[ \t]*\n)/gm, ""));
+        alert("Copied to the clipboard!");
+    }
+</script>
 <script defer>
     let preloader = document.getElementById('preloader-db')
 
