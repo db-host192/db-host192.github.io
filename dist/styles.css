@@ -1,3 +1,9 @@
+html, body {
+    overflow: hidden;
+}
+#results {
+    overflow-y: scroll;
+}
 .sea-color:focus ~ .form-label {
     color: #39c0ed !important;
 }
