@@ -26,3 +26,11 @@
     box-shadow: none!important;
     background-color: #303030;
 }
+
+#single-search {
+    padding: 0.47em
+}
+
+#single-search-label {
+    margin-top: 1px;
+}
