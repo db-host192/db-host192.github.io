@@ -10,17 +10,16 @@
     <script src="https://kit.fontawesome.com/d17938427b.js"></script>
 </head>
 <body>
-<div class="container">
+<nav class="navbar fixed-top">
+    <div class="container-fluid">
+           <button class="btn btn-outline-info w-100" onclick="startSearch()">
+                Start Search
+           </button>
+    </div>
+</nav>
+<div class="container mt-5">
     <div class="row">
-        <div class="col-12 text-center mt-5">
-            <button class="btn btn-outline-primary btn-custom-size w-100 btn-block"
-                    id="search-button"
-                    onclick="startSearch()">
-                                    <span class="icon-padding-5" id="button-search-text">
-                                        Start search
-                                    </span>
-                <i class="fas fa-sync-alt" id="sync-icon"></i>
-            </button>
+        <div class="col-12 text-center">
             <div id="results" class="mt-3">
 
             </div>
