@@ -42,8 +42,8 @@
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-            <div id="results" class="mt-5" onclick="copyResults()">
-            </div>
+            <textarea id="results" class="mt-5" onclick="copyResults()">
+            </textarea>
         </div>
     </div>
 </div>
@@ -51,8 +51,9 @@
 <script src='dist/mdb.min.js'></script>
 <script>
     function copyResults() {
-        let copyText = document.getElementById("results");
-        navigator.clipboard.writeText(copyText.innerText.replace(/(^[ \t]*\n)/gm, ""));
+        let copyText = document.querySelector("#results").select();
+        document.execCommand('copy')
+        // navigator.clipboard.writeText(copyText.innerText.replace(/(^[ \t]*\n)/gm, ""));
         alert("Copied to the clipboard!");
     }
 </script>
