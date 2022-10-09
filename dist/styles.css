@@ -1,8 +1,14 @@
-html, body {
-    overflow: hidden;
+::-webkit-scrollbar {
+    display: none;
 }
+
 #results {
-    overflow-y: scroll;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .sea-color:focus ~ .form-label {
     color: #39c0ed !important;
