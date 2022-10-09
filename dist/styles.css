@@ -1,3 +1,7 @@
+body {
+    color: white;
+}
+
 ::-webkit-scrollbar {
     display: none;
 }
@@ -6,7 +10,7 @@
     background-color: #59595940 !important;
 }
 
-#app-name, #db-loader {
+#app-name, #results {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
