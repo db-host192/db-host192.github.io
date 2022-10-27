@@ -43,7 +43,7 @@
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-            <textarea id="results" class="mt-5" onclick="copyResults()"></textarea>
+            <div id="results" class="mt-5" onclick="copyResults()"></div>
         </div>
     </div>
 </div>
@@ -58,7 +58,7 @@
 </script>
 <script defer>
     let preloader = document.getElementById('preloader-db')
-    let resultsTextarea = document.getElementById("results")
+    let resultsContainer = document.getElementById("results")
 
     window.addEventListener('load', function () {
         let loader = document.getElementById('loading')
@@ -68,7 +68,7 @@
     })
     function startSearch() {
         preloader.style.display = 'block'
-        let resultsContainer = document.getElementById('results')
+        resultsContainer.style.display = 'none'
         resultsContainer.innerText = ''
 
         let searchButton = document.getElementById('start-search-btn')
@@ -96,7 +96,7 @@
                         let resultItem = document.createElement("p")
                         resultsContainer.append(rows[i][0], resultItem)
                     }
-                    resultsTextarea.style.display = 'initial'
+                    resultsContainer.style.display = 'initial'
                 } else {
                     document.write("not found")
                 }
