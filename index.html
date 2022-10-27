@@ -43,8 +43,7 @@
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-            <textarea id="results" class="mt-5" onclick="copyResults()">
-            </textarea>
+            <textarea id="results" class="mt-5" onclick="copyResults()"></textarea>
         </div>
     </div>
 </div>
@@ -52,13 +51,14 @@
 <script src='dist/mdb.min.js'></script>
 <script>
     function copyResults() {
+        let results
         let copyText = document.querySelector("#results").select();
         document.execCommand('copy')
-        // navigator.clipboard.writeText(copyText.innerText.replace(/(^[ \t]*\n)/gm, ""));
     }
 </script>
 <script defer>
     let preloader = document.getElementById('preloader-db')
+    let resultsTextarea = document.getElementById("results")
 
     window.addEventListener('load', function () {
         let loader = document.getElementById('loading')
@@ -96,6 +96,7 @@
                         let resultItem = document.createElement("p")
                         resultsContainer.append(rows[i][0], resultItem)
                     }
+                    resultsTextarea.style.display = 'initial'
                 } else {
                     document.write("not found")
                 }
