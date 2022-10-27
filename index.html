@@ -17,22 +17,22 @@
 </div>
 <nav id="navbar-panel" class="navbar fixed-top bg-dark" style="display: none;">
     <div class="container-fluid">
-            <div class="col-8">
-                <button id="start-search-btn" class="btn btn-outline-info w-100 btn-custom-size" onclick="startSearch()">
+        <div class="col-8">
+            <button id="start-search-btn" class="btn btn-outline-info w-100 btn-custom-size" onclick="startSearch()">
                 <span class="icon-padding-5" id="button-search-text">
                     Search
                 </span>
-                    <i class="fas fa-search"></i>
-                </button>
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="col-4 p-2">
+            <div class="form-outline">
+                <input class="form-control sea-color" id="input-query" type="text"/>
+                <label class="form-label" for="input-query" id="single-search-label">
+                    Single search
+                </label>
             </div>
-            <div class="col-4 p-2">
-                <div class="form-outline">
-                    <input class="form-control sea-color" id="single-search" type="text"/>
-                    <label class="form-label" for="single-search" id="single-search-label">
-                        Single search
-                    </label>
-                </div>
-            </div>
+        </div>
     </div>
 </nav>
 <div class="container mt-5 bg-dark">
@@ -51,9 +51,7 @@
 <script src='dist/mdb.min.js'></script>
 <script>
     function copyResults() {
-        let results
-        let copyText = document.querySelector("#results").select();
-        document.execCommand('copy')
+        //ok
     }
 </script>
 <script defer>
@@ -66,6 +64,7 @@
         let navbarPanel = document.getElementById('navbar-panel')
         navbarPanel.style.display = 'block'
     })
+
     function startSearch() {
         preloader.style.display = 'block'
         resultsContainer.style.display = 'none'
@@ -73,7 +72,8 @@
 
         let searchButton = document.getElementById('start-search-btn')
         let buttonText = document.getElementById('button-search-text')
-
+        let inputQuery = String(document.getElementById('input-query').value + '%')
+        console.log(inputQuery)
         buttonText.innerText = 'Searching'
         searchButton.style.pointerEvents = 'none';
         searchButton.style.opacity = '0.5';
@@ -84,21 +84,23 @@
 
         xhr.onload = e => {
             const uInt8Array = new Uint8Array(xhr.response);
-            config = {
+            let config = {
                 locateFile: filename => `/dist/${filename}`
             }
             initSqlJs(config).then(function (SQL) {
                 const db = new SQL.Database(uInt8Array);
-                const contents = db.exec("SELECT * FROM parsed_users limit 1000");
+                const contents = db.exec(`SELECT * FROM parsed_users where lower(username) LIKE '${inputQuery}'`);
                 if (contents[0]) {
                     let rows = contents[0].values
                     for (let i = 0; i < rows.length; i++) {
                         let resultItem = document.createElement("p")
-                        resultsContainer.append(rows[i][0], resultItem)
+                        resultsContainer.append(rows[i][1], resultItem)
                     }
                     resultsContainer.style.display = 'initial'
                 } else {
-                    document.write("not found")
+                    resultsContainer.style.display = 'initial'
+                    let resultItem = document.createElement("p")
+                    resultsContainer.append('Not found!', resultItem)
                 }
                 buttonText.innerText = 'Search'
                 searchButton.style.pointerEvents = 'all';
