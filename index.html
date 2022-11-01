@@ -18,6 +18,43 @@
 <div id="loading">
     loading
 </div>
+<div class="container mt-5" id="auth">
+    <div class="row">
+        <div class="col-12">
+            <section>
+                <div class="row justify-content-center mt-5">
+                    <div class="col-xl-5 col-md-8 mt-5">
+                        <form class="rounded-5 shadow-5-strong p-5">
+                            <div class="form-outline mb-4">
+                                <input class="form-control sea-color" id="login" type="text"/>
+                                <label class="form-label" for="login">Login</label>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input class="form-control sea-color" id="password" type="password"/>
+                                <label class="form-label" for="password">Password</label>
+                            </div>
+                            <div class="btn btn-outline-info btn-block text-uppercase" onclick="singIn()">Sign in</div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <div class="container mt-5 text-center">
+                <div class="row">
+                    <p class="text-uppercase">
+                        <strong>
+                            Gram<span class="text-info">sea</span>
+                        </strong>
+                        (Chats Finder)
+                    <p>
+                        v4.0.0 PRO
+                    </p>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<span style="display: none;">
 <nav id="navbar-panel" class="navbar fixed-top bg-dark" style="display: none;">
     <div class="container-fluid">
         <div class="col-8">
@@ -50,6 +87,7 @@
         </div>
     </div>
 </div>
+</span>
 </body>
 <script src='dist/mdb.min.js'></script>
 
@@ -96,7 +134,9 @@
             }
             initSqlJs(config).then(function (SQL) {
                 const db = new SQL.Database(uInt8Array);
-                const contents = db.exec(`SELECT * FROM parsed_users where lower(username) LIKE '${inputQuery}'`);
+                const contents = db.exec(`SELECT *
+                                          FROM parsed_users
+                                          where lower(username) LIKE '${inputQuery}'`);
                 if (contents[0]) {
                     let rows = contents[0].values
                     for (let i = 0; i < rows.length; i++) {
