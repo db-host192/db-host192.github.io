@@ -56,7 +56,7 @@
         </div>
     </div>
 </div>
-<span style="display: none;">
+<span id="app" style="display: none;">
 <nav id="navbar-panel" class="navbar fixed-top bg-dark" style="display: none;">
     <div class="container-fluid">
         <div class="col-8">
@@ -99,35 +99,30 @@
 
         let login = document.getElementById('login').value
         let password = document.getElementById('password').value
-
         document.getElementById('auth').style.display = 'none'
         document.getElementById('loading').style.display = 'block'
 
-        let isAuth = checkCredentials(login, password)
-        if (isAuth) {
-            document.getElementById('loading').style.display = 'none'
-            document.getElementById('app').style.display = 'block'
-        } else {
-            document.getElementById('loading').style.display = 'none'
-            document.getElementById('auth').style.display = 'block'
-        }
+        checkCredentials(login, password)
     }
 
-    function checkCredentials(login, passwords) {
-        // xmlHttp.open( "GET", 'https://script.google.com/macros/s/AKfycbwc4PsqrXFbNd0F93vimR14zzOI7GblGvsHS7iyno9_Z1rPohGi/exec?product={}&userData={}&ip={}&country={}', false ); // false for synchronous request
+    async function checkCredentials(login, password) {
         $.ajax({
             type: "GET",
-            url: "https://script.google.com/macros/s/AKfycbwc4PsqrXFbNd0F93vimR14zzOI7GblGvsHS7iyno9_Z1rPohGi/exec?product={}&userData={}&ip={}&country={}",
+            url: `https://script.google.com/macros/s/AKfycbwc4PsqrXFbNd0F93vimR14zzOI7GblGvsHS7iyno9_Z1rPohGi/exec?product=parser-pro&userData=${login}:${password}&ip={}&country={}`,
             traditional: true,
             redirect: "follow",
             headers: {
                 "Content-Type": "text/plain;charset=utf-8",
-            },
-            success: function (response) {
-                console.log(response)
-            },
-            error: function () {
-                return false
+            }
+        }).done(function (data) {
+            if (data.response === true) {
+                document.getElementById('loading').style.display = 'none'
+                document.getElementById('app').style.display = 'block'
+                displayToast('License found!', 'success')
+            } else {
+                document.getElementById('loading').style.display = 'none'
+                document.getElementById('auth').style.display = 'block'
+                displayToast('License not found!', 'error')
             }
         });
     }
@@ -148,7 +143,6 @@
         let userInput = document.getElementById('input-query').value.replace(/[^A-Z0-9]/ig, '').replaceAll(' ', '');
         if (userInput === "") {
             displayToast('Empty query!', 'error')
-            console.log('empty query')
             return
         }
 
