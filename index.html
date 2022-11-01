@@ -6,9 +6,12 @@
     <title>Title</title>
     <link rel="stylesheet" href="dist/styles.css">
     <link rel="stylesheet" href="dist/mdb.dark.min.css">
+    <link rel="stylesheet" href="dist/js-snackbar.css">
     <script src='dist/sql-wasm.js'></script>
     <script src="https://kit.fontawesome.com/d17938427b.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="dist/js-snackbar.js"></script>
+    <script src="dist/custom.js"></script>
 
 </head>
 <body class="bg-dark">
@@ -49,11 +52,7 @@
 </div>
 </body>
 <script src='dist/mdb.min.js'></script>
-<script>
-    function copyResults() {
-        //ok
-    }
-</script>
+
 <script defer>
     let preloader = document.getElementById('preloader-db')
     let resultsContainer = document.getElementById("results")
@@ -66,13 +65,21 @@
     })
 
     function startSearch() {
+
+        let userInput = document.getElementById('input-query').value.replace(/[^A-Z0-9]/ig, '').replaceAll(' ', '');
+        if (userInput === "") {
+            displayToast('Empty query!', 'error')
+            console.log('empty query')
+            return
+        }
+
         preloader.style.display = 'block'
         resultsContainer.style.display = 'none'
         resultsContainer.innerText = ''
 
         let searchButton = document.getElementById('start-search-btn')
         let buttonText = document.getElementById('button-search-text')
-        let inputQuery = String(document.getElementById('input-query').value + '%')
+        let inputQuery = String(userInput + '%')
         console.log(inputQuery)
         buttonText.innerText = 'Searching'
         searchButton.style.pointerEvents = 'none';
