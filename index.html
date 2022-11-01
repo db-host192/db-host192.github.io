@@ -15,14 +15,16 @@
 
 </head>
 <body class="bg-dark">
-<div id="loading">
-    loading
+<div id="loading" class="text-center mt-5">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
 </div>
-<div class="container mt-5" id="auth">
+<div class="container" id="auth">
     <div class="row">
         <div class="col-12">
             <section>
-                <div class="row justify-content-center mt-5">
+                <div class="row justify-content-center">
                     <div class="col-xl-5 col-md-8 mt-5">
                         <form class="rounded-5 shadow-5-strong p-5">
                             <div class="form-outline mb-4">
@@ -44,9 +46,9 @@
                         <strong>
                             Gram<span class="text-info">sea</span>
                         </strong>
-                        (Chats Finder)
+                        (Chats Finder Bot)
                     <p>
-                        v4.0.0 PRO
+                        v1.1.3 PRO
                     </p>
                     </p>
                 </div>
@@ -92,6 +94,45 @@
 <script src='dist/mdb.min.js'></script>
 
 <script defer>
+
+    function singIn() {
+
+        let login = document.getElementById('login').value
+        let password = document.getElementById('password').value
+
+        document.getElementById('auth').style.display = 'none'
+        document.getElementById('loading').style.display = 'block'
+
+        let isAuth = checkCredentials(login, password)
+        if (isAuth) {
+            document.getElementById('loading').style.display = 'none'
+            document.getElementById('app').style.display = 'block'
+        } else {
+            document.getElementById('loading').style.display = 'none'
+            document.getElementById('auth').style.display = 'block'
+        }
+    }
+
+    function checkCredentials(login, passwords) {
+        // xmlHttp.open( "GET", 'https://script.google.com/macros/s/AKfycbwc4PsqrXFbNd0F93vimR14zzOI7GblGvsHS7iyno9_Z1rPohGi/exec?product={}&userData={}&ip={}&country={}', false ); // false for synchronous request
+        $.ajax({
+            type: "GET",
+            url: "https://script.google.com/macros/s/AKfycbwc4PsqrXFbNd0F93vimR14zzOI7GblGvsHS7iyno9_Z1rPohGi/exec?product={}&userData={}&ip={}&country={}",
+            traditional: true,
+            redirect: "follow",
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8",
+            },
+            success: function (response) {
+                console.log(response)
+            },
+            error: function () {
+                return false
+            }
+        });
+    }
+
+
     let preloader = document.getElementById('preloader-db')
     let resultsContainer = document.getElementById("results")
 
