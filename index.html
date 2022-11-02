@@ -15,12 +15,12 @@
 
 </head>
 <body class="bg-dark">
-<div id="loading" class="text-center mt-5">
+<div id="loading" class="text-center">
     <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
 </div>
-<div class="container" id="auth">
+<div class="container" style="display: none" id="auth">
     <div class="row">
         <div class="col-12">
             <section>
@@ -56,18 +56,10 @@
         </div>
     </div>
 </div>
-<span id="app" style="display: none;">
+<span id="app" style="display: block;">
 <nav id="navbar-panel" class="navbar fixed-top bg-dark" style="display: none;">
     <div class="container-fluid">
-        <div class="col-8">
-            <button id="start-search-btn" class="btn btn-outline-info w-100 btn-custom-size" onclick="startSearch()">
-                <span class="icon-padding-5" id="button-search-text">
-                    Search
-                </span>
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-        <div class="col-4 p-2">
+        <div class="col-12">
             <div class="form-outline">
                 <input class="form-control sea-color" id="input-query" type="text"/>
                 <label class="form-label" for="input-query" id="single-search-label">
@@ -75,17 +67,25 @@
                 </label>
             </div>
         </div>
+        <div class="col-12 mt-2">
+            <button id="start-search-btn" class="btn btn-outline-info w-100 btn-custom-size" onclick="startSearch()">
+                <span class="icon-padding-5" id="button-search-text">
+                    Search
+                </span>
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
     </div>
 </nav>
 <div class="container mt-5 bg-dark">
     <div class="row">
-        <div class="col-12 text-center">
-            <div id="preloader-db" class="container mt-5" style="display: none;">
+        <div class="col-12 text-center" style="margin-top: 75px;">
+            <div id="preloader-db" class="container" style="display: none;">
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-            <div id="results" class="mt-5" onclick="copyResults()"></div>
+            <div id="results" onclick="copyResults()"></div>
         </div>
     </div>
 </div>
