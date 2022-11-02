@@ -15,12 +15,12 @@
 
 </head>
 <body class="bg-dark">
-<div id="loading" class="text-center">
+<div id="loading" class="text-center mt-5">
     <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
 </div>
-<div class="container" style="display: none" id="auth">
+<div class="container" id="auth">
     <div class="row">
         <div class="col-12">
             <section>
@@ -56,7 +56,7 @@
         </div>
     </div>
 </div>
-<span id="app" style="display: block;">
+<span id="app" style="display: none;">
 <nav id="navbar-panel" class="navbar fixed-top bg-dark" style="display: none;">
     <div class="container-fluid">
         <div class="col-12">
@@ -144,6 +144,9 @@
         if (userInput === "") {
             displayToast('Empty query!', 'error')
             return
+        } else if (userInput.length <= 3) {
+            displayToast('Too short query!', 'info')
+            return
         }
 
         preloader.style.display = 'block'
@@ -174,6 +177,7 @@
                                           where lower(username) LIKE '${inputQuery}'`);
                 if (contents[0]) {
                     let rows = contents[0].values
+                    displayToast(`Found ${rows.length} chats`, 'success')
                     for (let i = 0; i < rows.length; i++) {
                         let resultItem = document.createElement("p")
                         resultsContainer.append(rows[i][1], resultItem)
