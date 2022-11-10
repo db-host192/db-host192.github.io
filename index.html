@@ -20,7 +20,8 @@
         <span class="visually-hidden">Loading...</span>
     </div>
 </div>
-<div class="container" id="auth">
+<div class="container" id="auth" style="display: none;">
+    <img src="data:image/png;base64,\x01\x08\x08\x80\xc6\xa2?,\x849]\xdb\xb2r(\xa2\x8ai\xb3s">
     <div class="row">
         <div class="col-12">
             <section>
@@ -56,8 +57,16 @@
         </div>
     </div>
 </div>
-<span id="app" style="display: none;">
+<!--<span id="app" style="display: none;">-->
+<span id="app">
 <nav id="navbar-panel" class="navbar fixed-top bg-dark" style="display: none;">
+    <div class="container-fluid mb-2">
+        <div class="col-12">
+            <div class="text-center" id="top-toast" style="display: none;">
+                Toast Message
+            </div>
+        </div>
+    </div>
     <div class="container-fluid">
         <div class="col-12">
             <div class="form-outline">
@@ -138,14 +147,28 @@
         navbarPanel.style.display = 'block'
     })
 
+    function displayTopToast(toastStyle, messageTest) {
+        let topToast = document.getElementById('top-toast')
+        topToast.classList.add('toast-active');
+        topToast.classList.add(`bg-${toastStyle}`);
+        topToast.style.display = 'block'
+        topToast.innerText = messageTest
+        setTimeout(() => {
+            topToast.style.display = 'none'
+            topToast.classList.remove("bg-danger");
+        }, 3000)
+
+    }
+
     function startSearch() {
+
 
         let userInput = document.getElementById('input-query').value.replace(/[^A-Z0-9]/ig, '').replaceAll(' ', '');
         if (userInput === "") {
-            displayToast('Empty query!', 'error')
+            displayTopToast('danger', 'Empty query')
             return
         } else if (userInput.length <= 3) {
-            displayToast('Too short query!', 'info')
+            displayTopToast('danger', 'query should be 4+ letters')
             return
         }
 
@@ -155,7 +178,7 @@
 
         let searchButton = document.getElementById('start-search-btn')
         let buttonText = document.getElementById('button-search-text')
-        let inputQuery = String(userInput + '%')
+        let inputQuery = String('%' + userInput + '%')
         console.log(inputQuery)
         buttonText.innerText = 'Searching'
         searchButton.style.pointerEvents = 'none';
