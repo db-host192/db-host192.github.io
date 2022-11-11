@@ -207,7 +207,11 @@
                     let rows = contents[0].values
                     displayTopToast('success', `Found ${rows.length} chats`)
                     for (let i = 0; i < rows.length; i++) {
-                        resultsTableBody.innerHTML += `<tr><td><a href='https://t.me/${rows[i][1]}' target='_blank'>${rows[i][1]}</a></td></tr>`
+                        if (i <= 100) {
+                            resultsTableBody.innerHTML += `<tr><td><a href='https://t.me/${rows[i][1]}' target='_blank'>${rows[i][1]}</a></td></tr>`
+                        } else {
+                            return
+                        }
                     }
                     resultsContainer.style.display = 'initial'
                 } else {
