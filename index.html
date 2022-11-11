@@ -205,27 +205,36 @@
                     resultsContainer.innerHTML += `</div><table class='table'><tbody id='results-table-body'></tbody></table>`
                     let resultsTableBody = document.getElementById('results-table-body')
                     let rows = contents[0].values
-                    displayTopToast('success', `Found ${rows.length} chats`)
+                    displayTopToast('success', `Found ${rows.length} chats (only >100 displayed)`)
                     for (let i = 0; i < rows.length; i++) {
                         if (i <= 100) {
+                            resultsContainer.style.display = 'initial'
                             resultsTableBody.innerHTML += `<tr><td><a href='https://t.me/${rows[i][1]}' target='_blank'>${rows[i][1]}</a></td></tr>`
                         } else {
+                            removeButtonFreeze()
                             return
                         }
                     }
-                    resultsContainer.style.display = 'initial'
+                    removeButtonFreeze()
                 } else {
+                    removeButtonFreeze()
                     resultsContainer.style.display = 'initial'
                     let resultItem = document.createElement("p")
                     resultsContainer.append('Not found!', resultItem)
                 }
-                buttonText.innerText = 'Search'
-                searchButton.style.pointerEvents = 'all';
-                searchButton.style.opacity = '1';
-                preloader.style.display = 'none'
             })
         };
         xhr.send();
+    }
+</script>
+<script>
+    function removeButtonFreeze() {
+        let searchButton = document.getElementById('start-search-btn')
+        let buttonText = document.getElementById('button-search-text')
+        buttonText.innerText = 'Search'
+        searchButton.style.pointerEvents = 'all';
+        searchButton.style.opacity = '1';
+        preloader.style.display = 'none'
     }
 </script>
 </html>
