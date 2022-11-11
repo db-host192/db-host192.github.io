@@ -6,11 +6,9 @@
     <title>Title</title>
     <link rel="stylesheet" href="dist/styles.css">
     <link rel="stylesheet" href="dist/mdb.dark.min.css">
-    <link rel="stylesheet" href="dist/js-snackbar.css">
     <script src='dist/sql-wasm.js'></script>
     <script src="https://kit.fontawesome.com/d17938427b.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-    <script src="dist/js-snackbar.js"></script>
     <script src="dist/custom.js"></script>
 
 </head>
@@ -165,7 +163,7 @@
     function startSearch() {
 
 
-        let userInput = document.getElementById('input-query').value.replace(/[^A-Z0-9]/ig, '').replaceAll(' ', '');
+        let userInput = document.getElementById('input-query').value.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '').replaceAll(' ', '');
         if (userInput === "") {
             displayTopToast('danger', 'Empty query')
             return
@@ -180,8 +178,14 @@
 
         let searchButton = document.getElementById('start-search-btn')
         let buttonText = document.getElementById('button-search-text')
-        let inputQuery = String('%' + userInput + '%')
-        console.log(inputQuery)
+
+        let inputQuery1 = String('%' + userInput + '%').toLowerCase()
+        let inputQuery2 = String(userInput + '%').toLowerCase()
+        let inputQuery3 = String('%' + userInput).toLowerCase()
+        let inputQuery4 = String(userInput).toLowerCase()
+
+        console.log(inputQuery2, inputQuery3, inputQuery4, inputQuery4)
+
         buttonText.innerText = 'Searching'
         searchButton.style.pointerEvents = 'none';
         searchButton.style.opacity = '0.5';
@@ -198,8 +202,15 @@
             initSqlJs(config).then(function (SQL) {
                 const db = new SQL.Database(uInt8Array);
                 const contents = db.exec(`SELECT *
-                                          FROM parsed_users
-                                          where lower(username) LIKE '${inputQuery}'`);
+                                          FROM all_chats
+                                          where lower(username) LIKE lower('${inputQuery1}')
+                                          OR lower(title) LIKE lower('${inputQuery1}')
+                                          OR lower(username) LIKE lower('${inputQuery2}')
+                                          OR lower(title) LIKE lower('${inputQuery2}')
+                                          OR lower(username) LIKE lower('${inputQuery3}')
+                                          OR lower(title) LIKE lower('${inputQuery3}')
+                                          OR lower(username) LIKE lower('${inputQuery4}')
+                                          OR lower(title) LIKE lower('${inputQuery4}')`);
                 if (contents[0]) {
 
                     resultsContainer.innerHTML += `</div><table class='table'><tbody id='results-table-body'></tbody></table>`
