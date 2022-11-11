@@ -11,7 +11,7 @@
     user-select: none;
     background-color: #303030;
     color: white;
-    display: none;
+    /*display: none;*/
 }
 .sea-color:focus ~ .form-label {
     color: #39c0ed !important;
@@ -41,7 +41,7 @@
     margin-top: 25px;
 }
 
-#top-toast {
+.top-toast {
     padding: 10px;
     text-transform: uppercase;
     visibility: hidden;

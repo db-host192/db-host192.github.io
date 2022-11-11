@@ -59,12 +59,9 @@
 </div>
 <!--<span id="app" style="display: none;">-->
 <span id="app">
-<nav id="navbar-panel" class="navbar fixed-top bg-dark" style="display: none;">
+<nav id="navbar-panel" class="navbar bg-dark" style="display: none;">
     <div class="container-fluid mb-2">
-        <div class="col-12">
-            <div class="text-center" id="top-toast" style="display: none;">
-                Toast Message
-            </div>
+        <div id="toasts-container" class="col-12">
         </div>
     </div>
     <div class="container-fluid">
@@ -86,15 +83,18 @@
         </div>
     </div>
 </nav>
-<div class="container mt-5 bg-dark">
+<div class="container bg-dark">
     <div class="row">
-        <div class="col-12 text-center" style="margin-top: 75px;">
+        <div class="col-12 text-center">
             <div id="preloader-db" class="container" style="display: none;">
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-            <div id="results" onclick="copyResults()"></div>
+            <div class='table-responsive'>
+                <div id="results">
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -148,14 +148,16 @@
     })
 
     function displayTopToast(toastStyle, messageTest) {
-        let topToast = document.getElementById('top-toast')
-        topToast.classList.add('toast-active');
-        topToast.classList.add(`bg-${toastStyle}`);
-        topToast.style.display = 'block'
-        topToast.innerText = messageTest
+
+        let toastContainer = document.getElementById('toasts-container')
+        let tmpToastItem = document.createElement("span");
+        tmpToastItem.insertAdjacentHTML(
+            "beforeend",
+            `<div class='text-center top-toast mt-1 mb-1 toast-active bg-${toastStyle}'>${messageTest}</div>`
+        );
+        toastContainer.appendChild(tmpToastItem);
         setTimeout(() => {
-            topToast.style.display = 'none'
-            topToast.classList.remove("bg-danger");
+            tmpToastItem.style.display = 'none'
         }, 3000)
 
     }
@@ -168,7 +170,7 @@
             displayTopToast('danger', 'Empty query')
             return
         } else if (userInput.length <= 3) {
-            displayTopToast('danger', 'query should be 4+ letters')
+            displayTopToast('info', 'query should be 4+ letters')
             return
         }
 
@@ -199,11 +201,13 @@
                                           FROM parsed_users
                                           where lower(username) LIKE '${inputQuery}'`);
                 if (contents[0]) {
+
+                    resultsContainer.innerHTML += `</div><table class='table'><tbody id='results-table-body'></tbody></table>`
+                    let resultsTableBody = document.getElementById('results-table-body')
                     let rows = contents[0].values
-                    displayToast(`Found ${rows.length} chats`, 'success')
+                    displayTopToast('success', `Found ${rows.length} chats`)
                     for (let i = 0; i < rows.length; i++) {
-                        let resultItem = document.createElement("p")
-                        resultsContainer.append(rows[i][1], resultItem)
+                        resultsTableBody.innerHTML += `<tr><td><a href='https://t.me/${rows[i][1]}' target='_blank'>${rows[i][1]}</a></td></tr>`
                     }
                     resultsContainer.style.display = 'initial'
                 } else {
