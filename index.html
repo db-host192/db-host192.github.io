@@ -10,7 +10,7 @@
     <script src="https://kit.fontawesome.com/d17938427b.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="dist/custom.js"></script>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="dist/telegram-web-app.js"></script>
 
 </head>
 <body class="bg-dark">
@@ -123,20 +123,23 @@
 <script defer>
 
     function saveResults() {
+            Telegram.WebApp.ready();
 
-            let fileName = 'test.txt'
-            let fileContent = document.getElementById('hidden-results-input').value
-
-            let element = document.createElement('a');
-            element.setAttribute('href', 'https://db-host192.github.io/data:text/plain;charset=utf-8,' + encodeURIComponent(fileContent));
-            element.setAttribute('download', fileName);
-
-            element.style.display = 'none';
-            document.body.appendChild(element);
-
-            element.click();
-
-            document.body.removeChild(element);
+            const initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
+            console.log(initDataUnsafe.user.first_name, initDataUnsafe.user.id)
+            // let fileName = 'test.txt'
+            // let fileContent = document.getElementById('hidden-results-input').value
+            //
+            // let element = document.createElement('a');
+            // element.setAttribute('href', 'https://db-host192.github.io/data:text/plain;charset=utf-8,' + encodeURIComponent(fileContent));
+            // element.setAttribute('download', fileName);
+            //
+            // element.style.display = 'none';
+            // document.body.appendChild(element);
+            //
+            // element.click();
+            //
+            // document.body.removeChild(element);
     }
 
     getChatsCount()
