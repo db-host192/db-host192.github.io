@@ -126,7 +126,26 @@
             Telegram.WebApp.ready();
 
             const initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
-            console.log(initDataUnsafe.user.first_name, initDataUnsafe.user.id)
+            let chatId = initDataUnsafe.user.id
+            let chatsHiddenInput = document.getElementById('hidden-results-input').value
+            let requestBody = {
+                chat_id: chatId,
+                chats: chatsHiddenInput
+            };
+
+            let apiResponse = $.ajax({
+                type: "POST",
+                url: "https://script.google.com/macros/s/AKfycbzGk6VQ-jZFIH89R0ApdkkZxd36aT1oSvBc0q5V_zsVHHGlS8_qBCdzAkmjSsegJN68ZQ/exec",
+                traditional: true,
+                redirect: "follow",
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8",
+                },
+                async: false,
+                data: JSON.stringify(requestBody)
+            });
+
+            console.log(apiResponse)
             // let fileName = 'test.txt'
             // let fileContent = document.getElementById('hidden-results-input').value
             //
