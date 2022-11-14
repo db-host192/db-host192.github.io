@@ -84,7 +84,8 @@
         <div class="col-12 mt-2">
             <div class="row">
                 <div class="col-7">
-                <button id="start-search-btn" class="btn btn-outline-info btn-custom-size w-100" onclick="startSearch()">
+                <button id="start-search-btn" class="btn btn-outline-info btn-custom-size w-100"
+                        onclick="startSearch()">
                     <span class="icon-padding-5" id="button-search-text">
                         Searchs
                     </span>
@@ -92,7 +93,8 @@
                 </button>
                 </div>
                 <div class="col-5">
-                    <button id="save-results-btn" class="btn btn-outline-info btn-custom-size w-100" onclick="saveResults()">
+                    <button id="save-results-btn" class="btn btn-outline-info btn-custom-size w-100"
+                            onclick="saveResults()">
                         Save
                     </button>
                 </div>
@@ -123,48 +125,54 @@
 <script defer>
 
     function saveResults() {
-            Telegram.WebApp.ready();
+        Telegram.WebApp.ready();
 
-            const initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
-            let chatId = initDataUnsafe.user.id
-            let chatsHiddenInput = document.getElementById('hidden-results-input').value
-            let requestBody = {
-                chat_id: chatId,
-                chats: chatsHiddenInput
-            };
+        const initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
+
+        let chatId = initDataUnsafe.user.id
+        let chatsHiddenInput = document.getElementById('hidden-results-input').value
+        let userInput = document.getElementById('input-query').value.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '').replaceAll(' ', '');
+
+
+        let requestBody = {
+            chat_id: chatId,
+            chats: chatsHiddenInput,
+            search_query: userInput
+        };
 
         let saveResultsBtn = document.getElementById('save-results-btn')
         saveResultsBtn.disabled = true;
 
         $.ajax({
-                type: "POST",
-                url: "https://script.google.com/macros/s/AKfycbzGk6VQ-jZFIH89R0ApdkkZxd36aT1oSvBc0q5V_zsVHHGlS8_qBCdzAkmjSsegJN68ZQ/exec",
-                traditional: true,
-                redirect: "follow",
-                headers: {
-                    "Content-Type": "text/plain;charset=utf-8",
-                },
-                data: JSON.stringify(requestBody),
-                success: function (response) {
-                    if (response) {
-                        saveResultsBtn.disabled = false;
-                        Telegram.WebApp.close();
-                        console.log(response)
-                    } else {
-                        saveResultsBtn.disabled = false;
-                        Telegram.WebApp.close();
-                        console.log('not ok!')
-                    }
-                },
-                error: function () {
+            type: "POST",
+            url: "https://script.google.com/macros/s/AKfycbzGk6VQ-jZFIH89R0ApdkkZxd36aT1oSvBc0q5V_zsVHHGlS8_qBCdzAkmjSsegJN68ZQ/exec",
+            traditional: true,
+            redirect: "follow",
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8",
+            },
+            data: JSON.stringify(requestBody),
+            success: function (response) {
+                if (response) {
                     saveResultsBtn.disabled = false;
                     Telegram.WebApp.close();
-                    console.log('error')
+                    console.log(response)
+                } else {
+                    saveResultsBtn.disabled = false;
+                    Telegram.WebApp.close();
+                    console.log('not ok!')
                 }
-            });
+            },
+            error: function () {
+                saveResultsBtn.disabled = false;
+                Telegram.WebApp.close();
+                console.log('error')
+            }
+        });
     }
 
     getChatsCount()
+
     function getChatsCount() {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', 'input.db', true);
@@ -177,7 +185,8 @@
             }
             initSqlJs(config).then(function (SQL) {
                 const db = new SQL.Database(uInt8Array);
-                const contents = db.exec(`SELECT * FROM all_chats`);
+                const contents = db.exec(`SELECT *
+                                          FROM all_chats`);
                 if (contents[0]) {
                     let rows = contents[0].values
                     let chatsCountContainer = document.getElementById('chats-count-container')
