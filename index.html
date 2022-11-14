@@ -149,29 +149,19 @@
                     if (response) {
                         saveResultsBtn.disabled = false;
                         Telegram.WebApp.close();
+                        console.log(response)
                     } else {
                         saveResultsBtn.disabled = false;
+                        Telegram.WebApp.close();
                         console.log('not ok!')
                     }
                 },
                 error: function () {
                     saveResultsBtn.disabled = false;
+                    Telegram.WebApp.close();
                     console.log('error')
                 }
             });
-         // let fileName = 'test.txt'
-            // let fileContent = document.getElementById('hidden-results-input').value
-            //
-            // let element = document.createElement('a');
-            // element.setAttribute('href', 'https://db-host192.github.io/data:text/plain;charset=utf-8,' + encodeURIComponent(fileContent));
-            // element.setAttribute('download', fileName);
-            //
-            // element.style.display = 'none';
-            // document.body.appendChild(element);
-            //
-            // element.click();
-            //
-            // document.body.removeChild(element);
     }
 
     getChatsCount()
