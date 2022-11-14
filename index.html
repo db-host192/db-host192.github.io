@@ -75,9 +75,9 @@
         <div class="col-12 mt-2">
             <div class="row">
                 <div class="col-12">
-                    <button class="btn btn-outline-danger btn-custom-size w-100" id="chats-count-container">
+                    <span class="btn btn-outline-danger btn-custom-size w-100" id="chats-count-container">
                         Loading...
-                    </button>
+                    </span>
                 </div>
             </div>
         </div>
@@ -95,7 +95,10 @@
                 <div class="col-5">
                     <button id="save-results-btn" class="btn btn-outline-info btn-custom-size w-100"
                             onclick="saveResults()">
+                   <span class="icon-padding-5" id="button-save-text">
                         Save
+                    </span>
+                    <i class="fas fa-save"></i>
                     </button>
                 </div>
             </div>
@@ -124,8 +127,24 @@
 
 <script defer>
 
+    function removeToast(toast) {
+        let toastElement = toast;
+        toastElement.remove();
+    }
+
+    let chatsCountContainer = document.getElementById('chats-count-container')
+    chatsCountContainer.style.pointerEvents = 'none';
+
+    let saveButton = document.getElementById('save-results-btn')
+    let buttonSaveText = document.getElementById('button-save-text')
+
+    saveButton.style.pointerEvents = 'none';
+    saveButton.style.opacity = '0.5';
+
     function saveResults() {
         Telegram.WebApp.ready();
+
+        buttonSaveText.innerText = 'Saving'
 
         const initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
 
@@ -189,7 +208,6 @@
                                           FROM all_chats`);
                 if (contents[0]) {
                     let rows = contents[0].values
-                    let chatsCountContainer = document.getElementById('chats-count-container')
                     chatsCountContainer.innerText = String(rows.length) + " Chats in DB"
                 }
             })
@@ -246,7 +264,7 @@
         let tmpToastItem = document.createElement("span");
         tmpToastItem.insertAdjacentHTML(
             "beforeend",
-            `<div class='text-center top-toast mt-1 mb-1 toast-active bg-${toastStyle}'>${messageTest}</div>`
+            `<div class='text-center top-toast mt-1 mb-1 toast-active bg-${toastStyle}' onclick="removeToast(this)">${messageTest}</div>`
         );
         toastContainer.appendChild(tmpToastItem);
         setTimeout(() => {
@@ -301,6 +319,8 @@
                     let resultsTableBody = document.getElementById('results-table-body')
                     let rows = contents[0].values
                     displayTopToast('success', `Found ${rows.length} chats (only 50 displayed)`)
+                    saveButton.style.pointerEvents = 'all';
+                    saveButton.style.opacity = '1';
                     for (let i = 0; i < rows.length; i++) {
                         if (i <= 50) {
                             resultsContainer.style.display = 'initial'
@@ -315,8 +335,12 @@
                 } else {
                     removeButtonFreeze()
                     resultsContainer.style.display = 'initial'
-                    let resultItem = document.createElement("p")
-                    resultsContainer.append('Not found!', resultItem)
+                    let resultItem = document.createElement("h4")
+                    resultItem.style.marginTop = '20px'
+                    resultItem.append('Not found!')
+                    resultsContainer.append(resultItem)
+                    saveButton.style.pointerEvents = 'none';
+                    saveButton.style.opacity = '0.5';
                 }
             })
         };
