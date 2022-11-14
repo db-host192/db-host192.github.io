@@ -92,7 +92,7 @@
                 </button>
                 </div>
                 <div class="col-5">
-                    <button class="btn btn-outline-info btn-custom-size w-100" onclick="saveResults()">
+                    <button id="save-results-btn" class="btn btn-outline-info btn-custom-size w-100" onclick="saveResults()">
                         Save
                     </button>
                 </div>
@@ -133,7 +133,10 @@
                 chats: chatsHiddenInput
             };
 
-            let apiResponse = $.ajax({
+        let saveResultsBtn = document.getElementById('save-results-btn')
+        saveResultsBtn.disabled = true;
+
+        $.ajax({
                 type: "POST",
                 url: "https://script.google.com/macros/s/AKfycbzGk6VQ-jZFIH89R0ApdkkZxd36aT1oSvBc0q5V_zsVHHGlS8_qBCdzAkmjSsegJN68ZQ/exec",
                 traditional: true,
@@ -141,12 +144,22 @@
                 headers: {
                     "Content-Type": "text/plain;charset=utf-8",
                 },
-                async: false,
-                data: JSON.stringify(requestBody)
+                data: JSON.stringify(requestBody),
+                success: function (response) {
+                    if (response) {
+                        saveResultsBtn.disabled = false;
+                        Telegram.WebApp.close();
+                    } else {
+                        saveResultsBtn.disabled = false;
+                        console.log('not ok!')
+                    }
+                },
+                error: function () {
+                    saveResultsBtn.disabled = false;
+                    console.log('error')
+                }
             });
-
-            console.log(apiResponse)
-            // let fileName = 'test.txt'
+         // let fileName = 'test.txt'
             // let fileContent = document.getElementById('hidden-results-input').value
             //
             // let element = document.createElement('a');
