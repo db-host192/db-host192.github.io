@@ -111,6 +111,7 @@
             <div class='table-responsive'>
                 <div id="results">
                 </div>
+                <input type="hidden" id="hidden-results-input" value="">
             </div>
         </div>
     </div>
@@ -122,7 +123,20 @@
 <script defer>
 
     function saveResults() {
-        Telegram.WebApp.sendData(new Date().toString());
+
+            let fileName = 'test.txt'
+            let fileContent = document.getElementById('hidden-results-input').value
+
+            let element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(fileContent));
+            element.setAttribute('download', fileName);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
     }
 
     getChatsCount()
@@ -208,8 +222,8 @@
     }
 
     function startSearch() {
-
-
+        let hiddenResultsInput = document.getElementById('hidden-results-input')
+        hiddenResultsInput.value = ''
         let userInput = document.getElementById('input-query').value.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '').replaceAll(' ', '');
         if (userInput === "") {
             displayTopToast('danger', 'Empty query')
@@ -257,6 +271,7 @@
                         if (i <= 50) {
                             resultsContainer.style.display = 'initial'
                             resultsTableBody.innerHTML += `<tr><td><a href='https://t.me/${rows[i][0]}' target='_blank'>${rows[i][1].slice(0, 50)}</a></td></tr>`
+                            hiddenResultsInput.value = hiddenResultsInput.value + "@" + rows[i][0] + "\n";
                         } else {
                             removeButtonFreeze()
                             return
