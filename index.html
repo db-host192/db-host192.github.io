@@ -145,6 +145,13 @@
         Telegram.WebApp.ready();
 
         buttonSaveText.innerText = 'Saving'
+        saveButton.style.pointerEvents = 'none';
+        saveButton.style.opacity = '0.5';
+
+        let searchButton = document.getElementById('start-search-btn')
+
+        searchButton.style.pointerEvents = 'none';
+        searchButton.style.opacity = '0.5';
 
         const initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
 
@@ -160,7 +167,6 @@
         };
 
         let saveResultsBtn = document.getElementById('save-results-btn')
-        saveResultsBtn.disabled = true;
 
         $.ajax({
             type: "POST",
