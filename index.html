@@ -324,11 +324,11 @@
                     resultsContainer.innerHTML += `</div><table class='table'><tbody id='results-table-body'></tbody></table>`
                     let resultsTableBody = document.getElementById('results-table-body')
                     let rows = contents[0].values
-                    displayTopToast('success', `Found ${rows.length} chats (only 50 displayed)`)
+                    displayTopToast('success', `Found ${rows.length} chats (only 100 displayed)`)
                     saveButton.style.pointerEvents = 'all';
                     saveButton.style.opacity = '1';
                     for (let i = 0; i < rows.length; i++) {
-                        if (i <= 50) {
+                        if (i <= 100) {
                             resultsContainer.style.display = 'initial'
                             resultsTableBody.innerHTML += `<tr><td><a href='https://t.me/${rows[i][0]}' target='_blank'>${rows[i][1].slice(0, 50)}</a></td></tr>`
                             hiddenResultsInput.value = hiddenResultsInput.value + "@" + rows[i][0] + "\n";
