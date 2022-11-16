@@ -165,7 +165,7 @@
 
     function getChatsCount() {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', 'input.db', true);
+        xhr.open('GET', 'pub_base.db', true);
         xhr.responseType = 'arraybuffer';
 
         xhr.onload = e => {
@@ -237,7 +237,7 @@
         searchButton.style.opacity = '0.5';
 
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', 'input.db', true);
+        xhr.open('GET', 'pub_base.db', true);
         xhr.responseType = 'arraybuffer';
 
         xhr.onload = e => {
